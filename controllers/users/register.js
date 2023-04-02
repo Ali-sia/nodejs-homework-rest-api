@@ -23,14 +23,24 @@ const register = catchAsync(async (req, res, next) => {
     throw createError(409, `User with email ${email} already exist`);
   }
 
-  const newUser = await User.create({ name, email, password, subscription });
+  // const avatarURL = gravatar.url(email);
+
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    subscription,
+    // avatarURL,
+  });
 
   newUser.password = undefined;
 
   res.status(201).json({
     status: 'added',
     code: 201,
-    data: { user: { email, subscription: subscription || 'starter' } },
+    data: {
+      user: { email, subscription: subscription || 'starter' },
+    },
   });
 });
 
